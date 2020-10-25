@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台布局</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 引入layui模块 -->
+    <link rel="stylesheet" th:href="@{/webjars/layui/src/css/layui.css}">
+    <script th:src="@{/webjars/layui/src/layui.js}"></script>
+</head>
+<body class="layui-layout-body">
+<div class="sidenav">
+    <ul class="layui-nav layui-nav-tree layui-nav-side" th:fragment="leftnav">
+        <li class="layui-nav-item"><a th:href="@{/home}">管理主页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/article}">文章管理</a></li>
+        <li class="layui-nav-item"><a th:href="@{/category}">分类管理</a></li>
+        <li class="layui-nav-item"><a th:href="@{/tag}">标签管理</a></li>
+        <li class="layui-nav-item"><a th:href="@{/comment}">评论管理</a></li>
+    </ul>
+</div>
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">主页</div>
+</div>
+
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>

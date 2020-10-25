@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.young.mapper.ArticleMapper">
+
+    <select id="getArticles" resultType="article">
+        select * from article
+    </select>
+
+    <select id="findByPager" resultType="article">
+        select * from article limit #{page},#{size}
+    </select>
+
+    <select id="getArticlesByCid" resultType="article">
+        select * from article where category = #{cid}
+    </select>
+
+    <select id="getArticlesByTime" resultType="article" parameterType="string">
+        select * from article where `time` like #{fid}
+    </select>
+
+    <select id="getArticleById" resultType="article" parameterType="int">
+        select * from article where id = #{id}
+    </select>
+
+    <select id="getArticleByName" resultType="article" parameterType="string">
+        select * from article where name = #{name}
+    </select>
+
+    <insert id="addArticle" parameterType="article">
+        insert into article (id,title,path,category,tag,time,image) values (#{id},#{title},#{path},#{category},#{tag},#{time},#{image})
+    </insert>
+
+    <delete id="deleteArticleById" parameterType="int">
+        delete from article where id = #{id}
+    </delete>
+
+    <update id="updateArticle" parameterType="article">
+        update article set title = #{title},path = #{path},category = #{category},tag = #{tag},time = #{time},image = #{image} where id = #{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(id) from article
+    </select>
+
+    <select id="countSameCategory" resultType="int" parameterType="int">
+        select count(id) from article where category = #{cid}
+    </select>
+
+    <select id="countSameTime" resultType="int" parameterType="string">
+        select count(id) from article where `time` like #{fid}
+    </select>
+
+    <select id="time" resultType="string">
+        SELECT LEFT(`time`,7) FROM article ORDER BY `time` DESC
+    </select>
+
+</mapper>

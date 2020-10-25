@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台布局</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 引入layui模块 -->
+    <link rel="stylesheet" th:href="@{/webjars/layui/src/css/layui.css}">
+    <script th:src="@{/webjars/layui/src/layui.js}"></script>
+    <!-- 引入jQuery模块 -->
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.slim.js}"></script>
+
+</head>
+<body class="layui-layout-body">
+<div class="sidenav">
+    <div th:replace="home::leftnav"></div>
+</div>
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <a class="layui-btn" href="article" th:href="@{/article/add}">新增文章</a>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>文章标题</th>
+                <th>文章分类</th>
+                <th>文章标签</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article: ${articles}">
+                <td th:text="${article.title}"></td>
+                <td th:text="${article.category}"></td>
+                <td th:text="${article.tag}"></td>
+                <td th:text="${article.time}"></td>
+                <td>
+                    <button th:attr="edit_uri=@{/article/edit/}+${article.id}" class="layui-btn editBtn" style="background-color: #06b6ef">编辑</button>
+                    <button th:attr="del_uri=@{/article/delete/}+${article.id}" class="layui-btn deleteBtn" style="background-color: red">删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form id="postForm" method="post">
+        <input type="hidden" name="article_id">
+    </form>
+</div>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#postForm").attr("action",$(this).attr("del_uri")).submit();
+        return false;
+    })
+</script>
+<script>
+    $(".editBtn").click(function () {
+        $("#postForm").attr("action",$(this).attr("edit_uri")).submit();
+        return false;
+    })
+</script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>

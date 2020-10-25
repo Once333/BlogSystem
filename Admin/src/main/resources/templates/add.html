@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增文章</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <!-- 引入jquery模块 -->
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <!-- 引入layui模块 -->
+    <link rel="stylesheet" th:href="@{/webjars/layui/src/css/layui.css}">
+    <script th:src="@{/webjars/layui/src/layui.js}"></script>
+
+</head>
+<body class="layui-layout-body">
+<div class="sidenav">
+    <div th:replace="home::leftnav"></div>
+</div>
+<div class="layui-body">
+    <form id="blog" th:action="@{/article/publish}" method="post" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <label class="layui-form-label">文章标题：</label>
+            <div class="layui-input-block">
+                <input type="text" id="articleTitle" name="title" required lay-verify="required" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">类别：</label>
+            <div class="layui-input-block">
+                <input list="articleCategory" type="text" class="layui-input" name="category" autocomplete="off" required  lay-verify="required">
+                <datalist id="articleCategory">
+                    <option th:each="categoty: ${categories}" th:text="${categoty.name}"></option>
+                </datalist>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签：</label>
+            <div class="layui-input-block">
+                <input list="articleTag" type="text" class="layui-input" name="tag" autocomplete="off" required  lay-verify="required">
+                <datalist id="articleTag">
+                    <option th:each="tag: ${tags}" th:text="${tag.name}"></option>
+                </datalist>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">发表时间：</label>
+            <div class="layui-input-block">
+                <input name="time" id="time" class="layui-input" type="text" autocomplete="off" required  lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文章选择：</label>
+            <div class="layui-input-block">
+                <input type="file" name="path">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面选择：</label>
+            <div class="layui-input-block">
+                <input type="file" name="image">
+            </div>
+        </div>
+        <a class="layui-btn" th:href="@{/article}">返回</a>
+        <button type="submit" class="layui-btn">发布文章</button>
+    </form>
+</div>
+<script>
+    layui.use('laydate',function () {
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#time'
+        });
+    });
+</script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+</body>
+</html>

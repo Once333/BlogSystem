@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台布局</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 引入jQuery模块 -->
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.js}"></script>
+    <!-- 引入layui模块 -->
+    <link rel="stylesheet" th:href="@{/webjars/layui/src/css/layui.css}">
+    <script th:src="@{/webjars/layui/src/layui.js}"></script>
+</head>
+<body class="layui-layout-body">
+<div class="sidenav">
+    <div th:replace="home::leftnav"></div>
+</div>
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <button type="button" class="layui-btn" id="add" onclick="add()">新增分类</button>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>分类ID</th>
+            <th>分类名称</th>
+            <th>文章数目</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category: ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td th:text="${category.number}"></td>
+            <td>
+                <button th:attr="del_uri=@{/category/delete/}+${category.id}" class="layui-btn deleteBtn" style="background-color: red">删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<form id="postForm" method="post">
+    <input type="hidden" name="category_id">
+</form>
+<form class="layui-form" id="addForm" style="display: none" th:action="@{/category/add}" method="post">
+    <div class="layui-form-item" style="width: 400px; padding-top: 30px">
+        <label class="layui-form-label">类别名称</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="cname" required  lay-verify="required">
+        </div>
+    </div>
+    <button type="submit" class="layui-btn" style="display:block;margin:0 auto">新增分类</button>
+</form>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#postForm").attr("action",$(this).attr("del_uri")).submit();
+        return false;
+    })
+</script>
+<script>
+    function add() {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+
+            layer.open({
+                type: 1,
+                area: ['500px','200px'],
+                content: $('#addForm')
+            })
+        });
+    }
+</script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>
